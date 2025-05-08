@@ -54,6 +54,62 @@ string receiveInput(int sock) {
     return string(buffer);
 }
 
+//--------------TEST HANDLER--------------------------
+class QuizManager {
+public:
+    void loadQuestions(const string& filepath, vector<MCQ>& questions) {
+        ifstream file(filepath);
+        if (!file) {
+            cerr << "Could not open file: " << filepath << endl;
+            return;
+        }
+
+        string line;
+        MCQ mcq;
+        while (getline(file, line)) {
+            if (line.rfind("Q:", 0) == 0) {
+                mcq.question = line.substr(2);
+            } else if (line.rfind("A)", 0) == 0) {
+                mcq.options[0] = line;
+            } else if (line.rfind("B)", 0) == 0) {
+                mcq.options[1] = line;
+            } else if (line.rfind("C)", 0) == 0) {
+                mcq.options[2] = line;
+            } else if (line.rfind("D)", 0) == 0) {
+                mcq.options[3] = line;
+            } else if (line.rfind("Answer:", 0) == 0) {
+                mcq.correctAnswer = toupper(line.back());
+            } else if (line.rfind("Solution:", 0) == 0) {
+                mcq.solution = line.substr(9); 
+                questions.push_back(mcq); 
+            }
+        }
+    }
+
+    void runQuiz(const vector<MCQ>& questions) {
+        int score = 0;
+        for (const auto& q : questions) {
+            cout << "\n" << q.question << "\n";
+            for (int i = 0; i < 4; ++i) {
+                cout << q.options[i] << "\n";
+            }
+
+            cout << "Your answer: ";
+            char ans;
+            cin >> ans;
+
+            if (toupper(ans) == q.correctAnswer) {
+                cout << "Correct!\n";
+                score++;
+            } else {
+                cout << "Wrong. Correct answer is: " << q.correctAnswer << "\n";
+            }
+            cout << "Explanation: " << q.solution << "\n";
+        }
+        cout << "\nYour score: " << score << "/" << questions.size() << "\n";
+    }
+};
+
 //---------Entrance Function----------------
 void entrance(int sock)
 {
