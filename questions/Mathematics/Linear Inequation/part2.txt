@@ -1,0 +1,16 @@
+Q: Which of the following is not a solution of x - 3 < 2?
+A) 0
+B) 2
+C) 1
+D) 3
+Answer: D
+Solution: x < 5 → 3 is not less than 5, so it is not a valid solution.
+
+Q: A word problem: A number decreased by 7 is less than 10. Find the number.
+A) x < 17
+B) x < 3
+C) x > 17
+D) x > 3
+Answer: A
+Solution: x - 7 < 10 → x < 17.
+
