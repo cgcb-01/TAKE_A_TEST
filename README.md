@@ -14,9 +14,9 @@ Option to retake tests seamlessly
 # Project Structure
 
 EduVerse/
-├── server.cpp                # Manages quiz logic and socket communication
-├── client.cpp                # Handles user input and server interaction
-├── questions/                # Repository of MCQ files organized by subject and chapter
+├── server.cpp 
+├── client.cpp                
+├── questions/                
 │   ├── Biology/
 │   │   ├── Cell/
 │   │   │   ├── part1.txt
