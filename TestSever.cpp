@@ -54,45 +54,81 @@ string receiveInput(int sock) {
     return string(buffer);
 }
 
-
 //---------Entrance Function----------------
 void entrance(int sock)
 {
-    stringstream ss;
-    ss<<"\n|----------------------------------------------------|";
-    ss<<"\n|----------------------------------------------------|";
-    ss<<"\n|       EDUVERSE - YOUR GATEWAY TO KNOWLEDGE         |";
-    ss<<"\n|----------------------------------------------------|";
-    ss<<"\n|----------------------------------------------------|";
-  ss<<"\n\n Welcome You to this Automated Question Answer Shift  ";
-  SS<<"\n\n             LET'S BEGIN THE SESSION \n";
-  ss<<"\n\n|----------------------------------------------------|";
-    ss<<" \nTO EXIT PRESS: CTRL+C";
-    ss<<"\n|-----------------------------------------------------|";
-    ss<<"\n\n                   GET READY;
-    sendPrompt(sock,ss);
-    
-    //Clearing the stringStream
-    ss.str("");     
-    ss.clear(); 
-    
-    //Subject Choice
-    ss<<"\n\n";
-    ss<<"\n|----------------------------------------------------|";
-    ss<<"\n|----------------------------------------------------|";
-    ss<<"\n|        WHICH SUBJECT YOU WANT TO PREPARE ?         |";
-    ss<<"\n|----------------------------------------------------|";
-    ss<<"\n|----------------------------------------------------|";
-  ss<<"\n\n|  1. MATHEMATICS       2.HISTORY       3.GEOGRAPHY  |";
-  ss<<"\n\n|  4. BIOLOGY           5.PHYSICS       6.CHEMISTRY  |";
-  ss<<"\n\n|  7. LITERATURE        8.COMPUTER      10.LANGUAGE  |";
-    ss<<"\n|----------------------------------------------------|";
-    ss<<"\n\n CHOOSE A NO.";
-    sendPrompt
+    QuizManager quiz;
+    string basePath = "./questions";
 
-    
+    while (true) {
+        stringstream ss;
+        ss<<"\n|----------------------------------------------------|";
+        ss<<"\n|----------------------------------------------------|";
+        ss<<"\n|       EDUVERSE - YOUR GATEWAY TO KNOWLEDGE         |";
+        ss<<"\n|----------------------------------------------------|";
+        ss<<"\n|----------------------------------------------------|";
+        ss<<"\n\n Welcome You to this Automated Question Answer Shift  ";
+        ss<<"\n\n             LET'S BEGIN THE SESSION \n";
+        ss<<"\n\n|----------------------------------------------------|";
+        ss<<" \nTO EXIT PRESS: CTRL+C";
+        ss<<"\n|-----------------------------------------------------|";
+        ss<<"\n\n                   GET READY";
+        sendPrompt(sock, ss.str());
+
+        // Clear stream
+        ss.str(""); ss.clear();
+
+        // Step 1: Show Subjects
+        vector<string> subjects;
+        for (const auto& entry : fs::directory_iterator(basePath)) {
+            if (entry.is_directory()) {
+                subjects.push_back(entry.path().filename().string());
+            }
+        }
+        int subjIndex = getChoiceFromList(sock, subjects, "AVAILABLE SUBJECTS");
+        string subject = subjects[subjIndex];
+
+        // Step 2: Show Chapters
+        string subjectPath = basePath + "/" + subject;
+        vector<string> chapters;
+        for (const auto& entry : fs::directory_iterator(subjectPath)) {
+            if (entry.is_directory()) {
+                chapters.push_back(entry.path().filename().string());
+            }
+        }
+        int chapIndex = getChoiceFromList(sock, chapters, "AVAILABLE CHAPTERS");
+        string chapter = chapters[chapIndex];
+
+        // Step 3: Show Parts
+        string chapterPath = subjectPath + "/" + chapter;
+        vector<string> parts;
+        for (const auto& entry : fs::directory_iterator(chapterPath)) {
+            if (entry.is_regular_file()) {
+                parts.push_back(entry.path().filename().string());
+            }
+        }
+        int partIndex = getChoiceFromList(sock, parts, "AVAILABLE PARTS");
+        string part = parts[partIndex];
+
+        string finalFile = chapterPath + "/" + part;
+        stringstream finalMsg;
+        finalMsg << "\nLoading Your questions from " << finalFile << "\n";
+        sendPrompt(sock, finalMsg.str());
+
+        // Run quiz
+        vector<MCQ> questions;
+        quiz.loadQuestions(finalFile, questions);
+        quiz.runQuiz(sock, questions); // assume runQuiz accepts sock to send questions and receive answers
+
+        // Ask if user wants to try another quiz
+        sendPrompt(sock, "\nDo you want to take another test? (yes/no): ");
+        string choice = receiveInput(sock);
+        if (choice != "yes" && choice != "Yes" && choice != "y" && choice != "Y") {
+            sendPrompt(sock, "\nThank you for using EDUVERSE. Goodbye!\n");
+            break;
+        }
+    }
 }
-
 
 // --- MAIN ---
 // ---------- UDP Broadcast Function ----------
