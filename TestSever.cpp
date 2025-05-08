@@ -55,7 +55,7 @@ string receiveInput(int sock) {
 }
 
 //--------------TEST HANDLER--------------------------
-class QuizManager {
+class testHandler {
 public:
     void loadQuestions(const string& filepath, vector<MCQ>& questions) {
         ifstream file(filepath);
@@ -86,27 +86,41 @@ public:
         }
     }
 
-    void runQuiz(const vector<MCQ>& questions) {
+    void runTest(int sock, const vector<MCQ>& questions) {
         int score = 0;
+        int qNumber = 1;
+
         for (const auto& q : questions) {
-            cout << "\n" << q.question << "\n";
+            stringstream ss;
+
+            // Display question
+            ss << "\nQuestion " << qNumber++ << ":\n";
+            ss << q.question << "\n";
             for (int i = 0; i < 4; ++i) {
-                cout << q.options[i] << "\n";
+                ss << q.options[i] << "\n";
             }
+            ss << "Your answer (A/B/C/D): ";
+            sendPrompt(sock, ss.str());
 
-            cout << "Your answer: ";
-            char ans;
-            cin >> ans;
+            // Receive answer
+            string input = receiveInput(sock);
+            char ans = toupper(input[0]);
 
-            if (toupper(ans) == q.correctAnswer) {
-                cout << "Correct!\n";
+            stringstream feedback;
+            if (ans == q.correctAnswer) {
+                feedback << "✅ Correct!\n";
                 score++;
             } else {
-                cout << "Wrong. Correct answer is: " << q.correctAnswer << "\n";
+                feedback << "❌ Oops! You answer is not Cprrect. The Correct one is: " << q.correctAnswer << "\n";
             }
-            cout << "Explanation: " << q.solution << "\n";
+
+            feedback << "📝 Explanation: " << q.solution << "\n";
+            sendPrompt(sock, feedback.str());
         }
-        cout << "\nYour score: " << score << "/" << questions.size() << "\n";
+
+        stringstream result;
+        result << "\n🎯 Your final score: " << score << "/" << questions.size() << "\n";
+        sendPrompt(sock, result.str());
     }
 };
 
