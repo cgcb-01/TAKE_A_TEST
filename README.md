@@ -12,7 +12,7 @@ Explanations provided after each question
 
 Option to retake tests seamlessly
 ## Project Structure
-
+```
 EduVerse/
 ├── server.cpp 
 ├── client.cpp                
@@ -31,7 +31,7 @@ EduVerse/
 │       └── AP GP/
 │           ├── part1.txt
 │           └── part2.txt
-
+```
 # How It Works
 The server initializes and listens for incoming client connections.
 
@@ -53,6 +53,7 @@ Users can choose to retake the test or exit.
 
 ## Question File Format
 Each text file should follow this consistent structure:
+```
 Q: What is 2 + 2?
 A) 3
 B) 4
@@ -60,7 +61,7 @@ C) 5
 D) 6
 Answer: B
 Solution: 2 + 2 equals 4.
-
+```
 # Technologies Used
 C++ with STL
 
