@@ -113,7 +113,7 @@ public:
 //---------Entrance Function----------------
 void entrance(int sock)
 {
-    QuizManager quiz;
+    testHandler test;
     string basePath = "./questions";
 
     while (true) {
@@ -173,8 +173,8 @@ void entrance(int sock)
 
         // Run quiz
         vector<MCQ> questions;
-        quiz.loadQuestions(finalFile, questions);
-        quiz.runQuiz(sock, questions); // assume runQuiz accepts sock to send questions and receive answers
+        test.loadQuestions(finalFile, questions);
+        test.runTest(sock, questions); 
 
         // Ask if user wants to try another quiz
         sendPrompt(sock, "\nDo you want to take another test? (yes/no): ");
@@ -185,7 +185,6 @@ void entrance(int sock)
         }
     }
 }
-
 // --- MAIN ---
 // ---------- UDP Broadcast Function ----------
 void broadcastServerIP() {
