@@ -11,7 +11,7 @@ Real-time quiz experience with answer validation and scoring
 Explanations provided after each question
 
 Option to retake tests seamlessly
-# Project Structure
+## Project Structure
 
 EduVerse/
 ├── server.cpp 
@@ -51,7 +51,7 @@ After the quiz, the server displays the final score.
 
 Users can choose to retake the test or exit.
 
-# Question File Format
+## Question File Format
 Each text file should follow this consistent structure:
 Q: What is 2 + 2?
 A) 3
