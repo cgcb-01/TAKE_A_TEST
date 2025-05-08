@@ -12,26 +12,19 @@
 #include <algorithm>
 #include <iomanip>
 #include <arpa/inet.h>
+#include <sstream>
+#include <filesystem>
 #define BROADCAST_PORT 9000
 #define TCP_PORT 8050
 using namespace std;
+namespace fs = std::filesystem;
 
-
-// Read from a file
-vector<vector<string>> readFile(const string &filename) {
-    vector<vector<string>> data;
-    ifstream file(filename);
-    string line;
-    while (getline(file, line)) {
-        stringstream ss(line);
-        vector<string> row;
-        string cell;
-        while (getline(ss, cell, ','))
-            row.push_back(cell);
-        data.push_back(row);
-    }
-    return data;
-}
+struct MCQ {
+    string question;
+    string options[4];
+    char correctAnswer;
+    string solution;
+};
 
 //sending To client
 void sendPrompt(int sock, const string &msg) {
@@ -52,6 +45,22 @@ string receiveInput(int sock) {
     buffer[bytesReceived] = '\0';
     cout << "[RECV] " << buffer << endl;
     return string(buffer);
+}
+
+// Displays options 
+int getChoiceFromList(int sock, const vector<string>& options, const string& title) {
+    stringstream ss;
+    ss << "\n\n|---------------- " << title << " ----------------|\n";
+    for (size_t i = 0; i < options.size(); ++i) {
+        ss << "| " << (i + 1) << ". " << options[i] << "\n";
+    }
+    ss << "|----------------------------------------------------|\n";
+    ss << "Enter your choice (number only): ";
+
+    sendPrompt(sock, ss.str());
+
+    int choice = stoi(receiveInput(sock));
+    return choice - 1;
 }
 
 //--------------TEST HANDLER--------------------------
@@ -139,7 +148,7 @@ void entrance(int sock)
         ss<<"\n|----------------------------------------------------|";
         ss<<"\n\n Welcome You to this Automated Question Answer Shift  ";
         ss<<"\n\n             LET'S BEGIN THE SESSION \n";
-        ss<<"\n\n|----------------------------------------------------|";
+      ss<<"\n\n|----------------------------------------------------|";
         ss<<" \nTO EXIT PRESS: CTRL+C";
         ss<<"\n|-----------------------------------------------------|";
         ss<<"\n\n                   GET READY";
