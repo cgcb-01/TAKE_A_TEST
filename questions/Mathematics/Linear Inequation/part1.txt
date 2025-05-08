@@ -1,0 +1,16 @@
+Q: What is the solution of 3x - 5 < 7?
+A) x < 4
+B) x > 4
+C) x < 3
+D) x > 3
+Answer: A
+Solution: Solving gives x < 4.
+
+Q: Solve for x: 5x + 2 ≥ 3x + 10
+A) x ≥ 4
+B) x ≤ 4
+C) x ≥ -4
+D) x ≤ -4
+Answer: A
+Solution: Rearranging gives 2x ≥ 8 → x ≥ 4.
+

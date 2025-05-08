@@ -1,0 +1,16 @@
+Q: What is the jelly-like substance inside the cell?
+A) Nucleoplasm
+B) Cytoplasm
+C) Lysosome
+D) Mitochondria
+Answer: B
+Solution: Cytoplasm holds organelles and is the site of most cellular activities.
+
+Q: Which organelle is responsible for packaging proteins?
+A) Ribosomes
+B) Golgi apparatus
+C) Endoplasmic reticulum
+D) Lysosomes
+Answer: B
+Solution: Golgi apparatus modifies and packages proteins for secretion or use.
+

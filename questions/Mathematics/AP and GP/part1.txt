@@ -1,0 +1,16 @@
+Q: What is the sum of the first 5 terms of the GP: 2, 4, 8, ...?
+A) 62
+B) 60
+C) 64
+D) 66
+Answer: C
+Solution: S5 = a(r^5 - 1)/(r - 1) = 2(32 - 1)/(2 - 1) = 62
+
+Q: If the 3rd term of a GP is 8 and the 5th term is 32, find the common ratio.
+A) 2
+B) 3
+C) 4
+D) 5
+Answer: A
+Solution: Let 3rd term be ar^2 = 8, 5th = ar^4 = 32 → divide → r^2 = 4 → r = 2
+

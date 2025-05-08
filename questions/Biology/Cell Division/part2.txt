@@ -1,0 +1,16 @@
+Q: In which phase does cytokinesis typically occur?
+A) Prophase
+B) Metaphase
+C) Telophase
+D) Interphase
+Answer: C
+Solution: Cytokinesis usually begins during or just after telophase to complete cell division.
+
+Q: How many daughter cells are formed after mitosis?
+A) 1
+B) 2
+C) 3
+D) 4
+Answer: B
+Solution: Mitosis produces two genetically identical daughter cells.
+
