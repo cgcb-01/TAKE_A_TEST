@@ -48,7 +48,7 @@ string receiveInput(int sock) {
 }
 
 // Displays options 
-int getChoiceFromList(int sock, const vector<string>& options, const string& title) {
+int getChoice(int sock, const vector<string>& options, const string& title) {
     stringstream ss;
     ss << "\n\n|---------------- " << title << " ----------------|\n";
     for (size_t i = 0; i < options.size(); ++i) {
@@ -117,10 +117,10 @@ public:
 
             stringstream feedback;
             if (ans == q.correctAnswer) {
-                feedback << "✅ Correct!\n";
+                feedback << "Correct!\n";
                 score++;
             } else {
-                feedback << "❌ Oops! You answer is not Cprrect. The Correct one is: " << q.correctAnswer << "\n";
+                feedback << "Oops! You answer is not Cprrect. The Correct one is: " << q.correctAnswer << "\n";
             }
 
             feedback << "📝 Explanation: " << q.solution << "\n";
@@ -128,7 +128,7 @@ public:
         }
 
         stringstream result;
-        result << "\n🎯 Your final score: " << score << "/" << questions.size() << "\n";
+        result << "\n Your final score: " << score << "/" << questions.size() << "\n";
         sendPrompt(sock, result.str());
     }
 };
@@ -164,7 +164,7 @@ void entrance(int sock)
                 subjects.push_back(entry.path().filename().string());
             }
         }
-        int subjIndex = getChoiceFromList(sock, subjects, "AVAILABLE SUBJECTS");
+        int subjIndex = getChoice(sock, subjects, "AVAILABLE SUBJECTS");
         string subject = subjects[subjIndex];
 
         // Step 2: Show Chapters
@@ -175,7 +175,7 @@ void entrance(int sock)
                 chapters.push_back(entry.path().filename().string());
             }
         }
-        int chapIndex = getChoiceFromList(sock, chapters, "AVAILABLE CHAPTERS");
+        int chapIndex = getChoice(sock, chapters, "AVAILABLE CHAPTERS");
         string chapter = chapters[chapIndex];
 
         // Step 3: Show Parts
@@ -186,7 +186,7 @@ void entrance(int sock)
                 parts.push_back(entry.path().filename().string());
             }
         }
-        int partIndex = getChoiceFromList(sock, parts, "AVAILABLE PARTS");
+        int partIndex = getChoice(sock, parts, "AVAILABLE PARTS");
         string part = parts[partIndex];
 
         string finalFile = chapterPath + "/" + part;
@@ -249,7 +249,7 @@ int main() {
     bind(server_fd, (struct sockaddr *)&address, sizeof(address));
     listen(server_fd, 3);
 
-    cout << "✅ Server is running on port " << TCP_PORT << " and broadcasting..." << endl;
+    cout << "Server is running on port " << TCP_PORT << " and broadcasting..." << endl;
 
     // Accept multiple clients
     while (true) {
